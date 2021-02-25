@@ -1,0 +1,34 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteReservation`(IN  REVNUMBER int)
+BEGIN
+	DELETE FROM Reservation WHERE REV_NUMBER = REVNUMBER;
+    -- CALL `new_schema`.`findBill`(REVNUBER, bill_n);
+    -- CALL `new_schema`.`deleteBill`(bill_n);
+END
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findReservation`(IN CLIENTNUMBER INT,
+ IN BEGINDATE DATE, IN ENDDATE DATE, IN HOTELNAME varchar(50), IN CITY varchar(20),
+ IN NOP tinyint, IN PRI numeric(6,2))
+BEGIN
+	SELECT *
+    FROM Reservation
+    NATURAL JOIN ROOM NATURAL JOIN HOTEL NATURAL JOIN ADDRESS
+	WHERE NOP = PEOPLE_NUMBER AND 
+    CLIENT_NUMBER = CLIENTNUMBER AND
+    HOTEL_NAME = HOTELNAME AND
+    BEGIN_DATE = BEGINDATE AND
+    END_DATE = ENDDATE AND
+    TOWN = CITY AND 
+	PRICE = PRI;
+END
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getClientReservations`(IN LOGIN varchar(15))
+BEGIN
+    	SELECT TOWN,  HOTEL_NAME, PEOPLE_NUMBER ,BEGIN_DATE, END_DATE, PRICE, REV_NUMBER
+    	FROM Reservation
+    	NATURAL JOIN  Room
+    	NATURAL JOIN Hotel
+        NATURAL JOIN Address
+        NATURAL JOIN Client
+        NATURAL JOIN Login
+    WHERE USERNAME=LOGIN;
+END
