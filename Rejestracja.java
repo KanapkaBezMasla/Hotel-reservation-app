@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
   
 class Rejestracja extends JFrame implements ActionListener { 
 
@@ -43,13 +44,13 @@ class Rejestracja extends JFrame implements ActionListener {
         c = getContentPane(); 
         c.setLayout(null); 
   
-        title = new JLabel("UtwÛrz nowe konto"); 
+        title = new JLabel("Utw√≥rz nowe konto"); 
         title.setFont(new Font("Arial", Font.PLAIN, 30)); 
         title.setSize(300, 30); 
         title.setLocation(300, 30); 
         c.add(title); 
   
-        name = new JLabel("ImiÍ"); 
+        name = new JLabel("Imiƒô"); 
         name.setFont(new Font("Arial", Font.PLAIN, 20)); 
         name.setSize(100, 20); 
         name.setLocation(100, 100); 
@@ -98,7 +99,7 @@ class Rejestracja extends JFrame implements ActionListener {
         tcountry.setLocation(251, 248); 
         c.add(tcountry); 
         
-        city = new JLabel("Has≥o"); 
+        city = new JLabel("Has≈Ço"); 
         city.setFont(new Font("Arial", Font.PLAIN, 20)); 
         city.setSize(100, 20); 
         city.setLocation(100, 296); 
@@ -110,7 +111,7 @@ class Rejestracja extends JFrame implements ActionListener {
         tcity.setLocation(251, 298); 
         c.add(tcity); 
         
-        street = new JLabel("PowtÛrz\n has≥o"); 
+        street = new JLabel("Powt√≥rz\n has≈Ço"); 
         street.setFont(new Font("Arial", Font.PLAIN, 20)); 
         street.setSize(132, 20); 
         street.setLocation(100, 345); 
@@ -123,7 +124,7 @@ class Rejestracja extends JFrame implements ActionListener {
         c.add(tstreet);
 
   
-        sub = new JButton("Zatwierdü"); 
+        sub = new JButton("Zatwierd≈∫"); 
         sub.setFont(new Font("Arial", Font.PLAIN, 15)); 
         sub.setSize(100, 20); 
         sub.setLocation(354, 550); 
@@ -159,11 +160,11 @@ class Rejestracja extends JFrame implements ActionListener {
     				
     				try {
 						PreparedStatement st = Aplikacja.getConnection().prepareStatement(query);
-						st.setString(1, login);
-						st.setString(2, haslo);
-						ResultSet rs = st.executeQuery();
+						st.setString(1, haslo);
+						st.setString(2, login);
+						int rs = st.executeUpdate();
 						
-						if (rs.next()) {
+						if (rs != Statement.EXECUTE_FAILED) {
 							String query1 = "SELECT login_id FROM login "
 									+ "WHERE login.username = ?";
 							PreparedStatement sel_login_id = Aplikacja.getConnection().prepareStatement(query1);
@@ -173,24 +174,31 @@ class Rejestracja extends JFrame implements ActionListener {
 							String query2 = "INSERT INTO RezerwacjaHotelu.client (LOGIN_ID, FIRST_NAME, SURNAME, PHONE_NUMBER) "
 		    						+ "VALUES (?, ?, ?, ?);";
 							PreparedStatement insert_client = Aplikacja.getConnection().prepareStatement(query2);
-							int loginID = res_log_id.getRow();
-							insert_client.setString(1, String.valueOf(loginID));
+							res_log_id.next();
+							String loginID = res_log_id.getString(1);
+							//System.out.println(loginID);
+							insert_client.setString(1, loginID);
 							insert_client.setString(2, imie);
 							insert_client.setString(3, nazwisko);
 							insert_client.setString(4, tel);
-							ResultSet res_client = insert_client.executeQuery();
+							int res_client = insert_client.executeUpdate();
 							
-							if (!res_client.next())
-								throw new SQLException("Nie uda≥o sie wprowadzic klienta!");
+							if (res_client == Statement.EXECUTE_FAILED)
+								throw new SQLException("Nie uda≈Ço sie wprowadzic klienta!");
+							
+							Logowanie logowanie = new Logowanie();
+							logowanie.setVisible(true);
+							logowanie.setLocationRelativeTo(null);
+							this.dispose();
 							
 						}else 
-							throw new SQLException("Nie uda≥o sie wproawdzic loginu i hasla!");
+							throw new SQLException("Nie uda≈Ço sie wproawdzic loginu i hasla!");
 						
 						
 						
 					} catch (SQLException e1) {
 						
-						e1.printStackTrace();
+						JOptionPane.showMessageDialog(this, e1.getMessage(), "B≈ÇƒÖd wprowadzania danych", JOptionPane.ERROR_MESSAGE);
 					}
     				
     				
@@ -198,10 +206,8 @@ class Rejestracja extends JFrame implements ActionListener {
     			else {
     				JOptionPane.showMessageDialog(this,
     					    "Zle wprowadzone dane :(",
-    					    "Ostrzeøenie",
+    					    "Ostrze≈ºenie",
     					    JOptionPane.WARNING_MESSAGE);
-    				System.out.println(haslo);
-    				System.out.println(sprHaslo);
     			}
     		}
     		
@@ -218,4 +224,3 @@ class Rejestracja extends JFrame implements ActionListener {
     	
     } 
 } 
-  
