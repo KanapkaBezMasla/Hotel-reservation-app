@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
@@ -19,14 +20,12 @@ public class Logowanie extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private String haslo;
 	private String login;
-	
-	
-	
+	//Uzytkownik user;
 	
 	JLabel loginLabel   	= new JLabel("Login: ");
 	JLabel hasloLabel   	= new JLabel("Haslo: ");
 	JTextField loginField   = new JTextField(10);
-	JTextField hasloField   = new JTextField(10);
+	JPasswordField hasloField   = new JPasswordField(10);
 	
 	JRadioButton turystaRadio = new JRadioButton("turysta");
 	JRadioButton pracownikRadio = new JRadioButton("pracownik");
@@ -49,8 +48,11 @@ public class Logowanie extends JFrame implements ActionListener{
 		loginLabel.setFont(font);
 		hasloLabel.setFont(font);
 		loginField.setFont(font);
-		hasloField.setFont(font);
-
+		
+		loginLabel.setLabelFor(loginField);
+		hasloLabel.setLabelFor(hasloField);
+		
+		
 		zalogujButton.addActionListener(this);
 		registerButton.addActionListener(this);
 		JPanel panel = new JPanel();
@@ -71,10 +73,10 @@ public class Logowanie extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		Object eventSource = event.getSource();
+		//System.out.println(event.getID());
 
 		try {
 			if (eventSource == zalogujButton) {
-				System.out.println("jesteśmy przed ifie");
 				Aplikacja.turysta = turystaRadio.isSelected();
 				Aplikacja.pracownik = pracownikRadio.isSelected();
 				if (warunkiLogowania()) {
@@ -84,8 +86,7 @@ public class Logowanie extends JFrame implements ActionListener{
 					ResultSet rs1;
 					
 					login = loginField.getText();
-					haslo = hasloField.getText();
-					System.out.println("jesteśmy w ifie");	
+					haslo = new String (hasloField.getPassword());	
 					
 					if (turystaRadio.isSelected() ) {
 						
@@ -97,15 +98,18 @@ public class Logowanie extends JFrame implements ActionListener{
 						rs = st.executeQuery();
 						
 						if(rs.next()) {
-							
+							Aplikacja.login = login;
 							//logowanie turysty się udało, wyświtlić kolejny ekran
 	                        System.out.println("Udało się zalogować");
-	                        AplikacjaTurysty clientForm = new AplikacjaTurysty();
+	                        
+	                        this.dispose();
+	                        // int loginid = rs.getInt("login.login_id");
+							System.out.println("Udało się zalogować");
+							//user = new Uzytkownik(login, haslo, loginid);
+							AplikacjaTurysty clientForm = new AplikacjaTurysty();
 	                        clientForm.setVisible(true);
 	                        //clientForm.pack();
 	                        clientForm.setLocationRelativeTo(null);
-	                        this.dispose();
-							System.out.println("Udało się zalogować");
 							
 						} else {
 							
@@ -125,7 +129,7 @@ public class Logowanie extends JFrame implements ActionListener{
 						rs1 = st1.executeQuery();
 						
 						if(rs1.next()) {
-							
+							Aplikacja.login = login;
 							AplikacjaPracownika workerForm = new AplikacjaPracownika();
 	                        workerForm.setVisible(true);
 	                        //workerForm.pack();
@@ -140,12 +144,6 @@ public class Logowanie extends JFrame implements ActionListener{
 						}
 						
 					}
-					/*
-					System.out.println(Aplikacja.login);
-					if(warunkiLogowania()) {
-						Aplikacja.zalogowanoPoprawnie = true;
-						dispose();
-					} */
 			} 
 				else {
 					System.out.println("Nie spełniono warunków logowania.");
@@ -168,19 +166,11 @@ public class Logowanie extends JFrame implements ActionListener{
 		
 	}
 	
-	private boolean warunkiLogowania() {
-		boolean warunki = false;
-		if (hasloField.getText() == "") return false;
+	boolean warunkiLogowania() {
+		if (new String (hasloField.getPassword()) == "") return false;
         if (loginField.getText() == "") return false;
         if (!(Aplikacja.pracownik ^ Aplikacja.turysta)) return false;
         return true;
-        /*
-		warunki = Aplikacja.pracownik ^ Aplikacja.turysta;
-		if(Aplikacja.login=="")
-			warunki = false;
-		if(haslo == null)
-			warunki = false;
-		
-		return warunki;*/
+
 	}
 }
