@@ -9,7 +9,7 @@ INSERT INTO hotel (HOTEL_ID, HOTEL_NAME, ADDRESS_ID)
 VALUES (1, 'Marriott', 1);
 
 -- sprawdzenie czy wartosci klucz obcego odpowiadaja wartoscia klucza glownego
-SELECT COUNT(ADDRESS_ID) FROM hotel
+SELECT COUNT(ADDRESS_ID) FROM hotel;
 
 SELECT COUNT(ADDRESS_ID) FROM hotel JOIN address ON hotel.ADDRESS_ID = address.ADDRESS_ID;
 
