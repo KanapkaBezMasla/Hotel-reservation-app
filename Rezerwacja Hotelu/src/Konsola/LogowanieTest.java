@@ -9,12 +9,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-public class LogowanieTest2 {
+public class LogowanieTest {
 	Aplikacja aplikacja;
 	
-	
-	@Rule
-	public ExpectedException exception = ExpectedException.none();
 
 	@Before
 	 public void setUp(){
