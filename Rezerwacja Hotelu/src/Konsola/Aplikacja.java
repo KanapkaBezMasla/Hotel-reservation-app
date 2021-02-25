@@ -26,7 +26,7 @@ public class Aplikacja {
 	public static String databaseName = "";
 	public static String url = "jdbc:mysql://localhost:3306/" + databaseName;
 	public static String username = "root";
-	public static String password = "PanMnie3-ma";
+	public static String password = "Tu nalezy wpisac haslo";
 	
 	public static Connection getConnection() {
 
@@ -49,38 +49,7 @@ public class Aplikacja {
 	}
 	
 	public static void main(String[] args) throws SQLException, InterruptedException {
-		/*
-		try {
-			Object newInstance = Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			System.out.println("Blad z klas¹!");
-			e.printStackTrace();
-		}
-		try {
-			connection = DriverManager.getConnection(url, username, password);
-		} catch (SQLException e1) {
-			System.out.println("Blad z connection!");
-			e1.printStackTrace();
-		}*/
-		//PreparedStatement ps = connection.prepareStatement("INSERT INTO RezerwacjaHotelu.login (PASSWORD, USERNAME) VALUES ('admin1', 'admin1');");
-
-		//int status = ps.executeUpdate(); //jeœli dobrze zasz³o wstawinie funkcja zwróci liczbê wiêksz¹ od 0
-		
-		//if(status != 0) {
-		//	System.out.println("DB was connected\n Wstawiono dane poprawnie.");
-		//}
-		
 		new Logowanie();
-		//do {
-		//	TimeUnit.SECONDS.sleep(100);
-			//System.out.println();
-			//System.out.print(zalogowanoPoprawnie);
-		//}while(Aplikacja.zalogowanoPoprawnie == false);
-		//System.out.println("dwindwe" + zalogowanoPoprawnie);
-		//if(turysta == true)
-		//	new AplikacjaTurysty();
-		//else
-		//	new AplikacjaPracownika();
 	}
 	
 	Aplikacja() {}
