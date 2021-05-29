@@ -1,0 +1,18 @@
+
+-- sprawdzanie czy tabela hotel ma unikalny i nie pusty klucz glowny
+SELECT * FROM hotel WHERE HOTEL_ID = NULL;
+
+SELECT HOTEL_ID FROM hotel GROUP BY HOTEL_ID HAVING COUNT(HOTEL_ID) > 1;
+
+-- proba dodania rekordu z istniejacym juz kluczem glownym
+INSERT INTO hotel (HOTEL_ID, HOTEL_NAME, ADDRESS_ID)
+VALUES (1, 'Marriott', 1);
+
+-- sprawdzenie czy wartosci klucz obcego odpowiadaja wartoscia klucza glownego
+SELECT COUNT(ADDRESS_ID) FROM hotel;
+
+SELECT COUNT(ADDRESS_ID) FROM hotel JOIN address ON hotel.ADDRESS_ID = address.ADDRESS_ID;
+
+-- proba dodania rekordu z nieodpowiednim kluczem obcym
+INSERT INTO hotel (HOTEL_NAME, ADDRESS_ID)
+VALUES ('Marriott', 75);
