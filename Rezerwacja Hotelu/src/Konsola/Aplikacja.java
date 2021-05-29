@@ -48,7 +48,8 @@ public class Aplikacja {
 
 	}
 	
-	public static void main(String[] args) throws SQLException, InterruptedException {	
+	public static void main(String[] args) throws SQLException, InterruptedException {
+
 		new Logowanie();
 	}
 	
